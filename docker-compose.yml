@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:15
+    container_name: pg_expense_novo
+    environment:
+      POSTGRES_USER: localExpenseTrackerAPI
+      POSTGRES_PASSWORD: 822fd05162e54
+      POSTGRES_DB: expense_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata_nova:/var/lib/postgresql/data
+
+volumes:
+  pgdata_nova:
