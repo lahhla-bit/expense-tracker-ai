@@ -18,11 +18,11 @@ public class CategoryRepository : ICategoryRepository
     public async Task<Category> GetOrCreateOthersAsync()
     {
         var others = await _context.Categories
-            .FirstOrDefaultAsync(c => c.Name == "Others");
+            .FirstOrDefaultAsync(c => c.Name == "Outros");
 
         if (others == null)
         {
-            others = new Category { Name = "Others", HexColor = "#9E9E9E" };
+            others = new Category { Name = "Outros", HexColor = "#9E9E9E" };
             _context.Categories.Add(others);
             await _context.SaveChangesAsync();
         }

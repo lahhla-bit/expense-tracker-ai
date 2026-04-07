@@ -4,5 +4,5 @@ namespace ExpenseTrackerApi.Data;
 
 public interface IReportRepository
 {
-    Task<DashboardDto> GetMonthlyDashboardAsync();
+    Task<DashboardDto> GetMonthlyDashboardAsync(CancellationToken ct = default);
 }

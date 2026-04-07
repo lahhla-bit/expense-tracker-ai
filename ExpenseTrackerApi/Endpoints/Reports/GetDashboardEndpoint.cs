@@ -24,8 +24,7 @@ public class GetDashboardEndpoint : EndpointWithoutRequest<DashboardDto>
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        var dashboard = await _reportRepo.GetMonthlyDashboardAsync();
-
-        Response = dashboard;
+        var result = await _reportRepo.GetMonthlyDashboardAsync(ct);
+        Response = result;
     }
 }

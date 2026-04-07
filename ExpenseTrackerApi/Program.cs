@@ -36,14 +36,16 @@ try
     });
 
     // IA
-    builder.Services.AddHttpClient<GeminiService>()
+    builder.Services.AddHttpClient<IGeminiService, GeminiService>()
         .AddStandardResilienceHandler(options => {
             options.Retry.MaxRetryAttempts = 3;
             options.Retry.Delay = TimeSpan.FromSeconds(2);
-            
             options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(10);
         });
-    builder.Services.AddScoped<GeminiService>();
+
+    // Services
+    builder.Services.AddScoped<IExpenseService, ExpenseService>();
+    
 
     // Repository
     builder.Services.AddScoped<IReportRepository, ReportRepository>();
@@ -94,11 +96,11 @@ try
     app.UseExceptionHandler();
     
     //MIDDLEWARES
-    //if (app.Environment.IsDevelopment())
-    //{
+    if (app.Environment.IsDevelopment())
+    {
         app.MapOpenApi();
         app.MapScalarApiReference();
-    //}
+    }
 
     app.UseHttpsRedirection();
     app.UseFastEndpoints();

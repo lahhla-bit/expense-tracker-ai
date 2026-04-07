@@ -1,10 +1,9 @@
 using FastEndpoints;
 using FluentValidation;
-using ExpenseTrackerApi.Models;
 
 namespace ExpenseTrackerApi.Endpoints.Expenses;
 
-public class ProcessExpenseValidator : Validator<ProcessRequest>
+public class ProcessExpenseValidator : Validator<ProcessExpenseRequest>
 {
     public ProcessExpenseValidator()
     {

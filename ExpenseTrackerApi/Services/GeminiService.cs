@@ -3,7 +3,7 @@ using ExpenseTrackerApi.Models;
 
 namespace ExpenseTrackerApi.Services;
 
-public class GeminiService
+public class GeminiService : IGeminiService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;
