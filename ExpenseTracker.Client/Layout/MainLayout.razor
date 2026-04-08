@@ -1,0 +1,36 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_elegantDarkTheme" IsDarkMode="true" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1" Color="Color.Dark">
+        <MudIcon Icon="@Icons.Material.Filled.AccountBalanceWallet" Class="mr-2" />
+        <MudText Typo="Typo.h5" Class="ml-3">Expense AI Tracker</MudText>
+        <MudSpacer />
+        <MudButton Href="/dashboard" Variant="Variant.Text" Color="Color.Inherit">Dashboard</MudButton>
+    </MudAppBar>
+
+    <MudMainContent Class="pt-16 px-4">
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private MudTheme _elegantDarkTheme = new MudTheme()
+    {
+        PaletteDark = new PaletteDark()
+        {
+            Primary = "#7c4dff",        // oxo vibrante
+            Secondary = "#03dac6",      // verde ciano
+            Background = "#121212",     // Fundo escuro
+            Surface = "#1e1e1e",        // Fundo dos cartões (um pouco mais claro que o fundo)
+            AppbarBackground = "#1f1f2e", // Cor da barra superior (um tom azul-escuro)
+            TextPrimary = "#ffffff",    // Texto branco
+            TextSecondary = "#b3b3b3"   // Texto secundário acinzentado
+        }
+    };
+}

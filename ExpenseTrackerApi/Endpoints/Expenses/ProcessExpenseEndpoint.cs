@@ -1,5 +1,5 @@
 using FastEndpoints;
-using ExpenseTrackerApi.Models;
+using ExpenseTrackerApi.Domain.Interfaces;
 
 namespace ExpenseTrackerApi.Endpoints.Expenses;
 

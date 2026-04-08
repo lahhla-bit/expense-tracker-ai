@@ -1,0 +1,90 @@
+@page "/dashboard"
+@page "/"
+@using ExpenseTracker.Shared
+@inject HttpClient Http
+
+<MudText Typo="Typo.h3" Align="Align.Center" Class="mb-8">O Meu Dashboard</MudText>
+
+@if (dashboardData == null)
+{
+    <div class="d-flex justify-center mt-16">
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+    </div>
+}
+else
+{
+    <MudGrid Justify="Justify.Center">
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-4 text-center" Elevation="3" Style="background-color: var(--mud-palette-surface);">
+                <MudText Typo="Typo.h6" Color="Color.Secondary">Total Gasto</MudText>
+                <MudText Typo="Typo.h4">R$ @dashboardData.TotalMonthlyAmount.ToString("0.00")</MudText>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="pa-4 text-center" Elevation="3" Style="background-color: var(--mud-palette-surface);">
+                <MudText Typo="Typo.h6" Color="Color.Error">Maior Despesa</MudText>
+                <MudText Typo="Typo.h4">@dashboardData.MostExpensiveCategory</MudText>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" md="8">
+            <MudPaper Class="pa-4" Elevation="3">
+                <MudText Typo="Typo.h6" Align="Align.Center" Class="mb-4">Gastos por Categoria</MudText>
+                
+                @if (dashboardData.Categories.Any())
+                {
+                    <MudChart ChartType="ChartType.Pie" 
+                              T="double" 
+                              ChartSeries="@GetChartSeries()" 
+                              ChartLabels="@GetChartLabels()" 
+                              ChartOptions="@_chartOptions"
+                              Width="100%" Height="300px" />
+                }
+                else
+                {
+                    <MudText Align="Align.Center">Nenhuma despesa registada ainda.</MudText>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+}
+
+@code {
+    private DashboardDto? dashboardData;
+    private ChartOptions _chartOptions = new ChartOptions();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            dashboardData = await Http.GetFromJsonAsync<DashboardDto>("api/dashboard");
+            
+            if (dashboardData != null && dashboardData.Categories.Any())
+            {
+                _chartOptions.ChartPalette = dashboardData.Categories.Select(c => c.HexColor).ToArray();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar o dashboard: {ex.Message}");
+        }
+    }
+
+    private List<ChartSeries<double>> GetChartSeries() 
+    {
+        return new List<ChartSeries<double>> 
+        {
+            new ChartSeries<double> 
+            { 
+                Name = "Despesas", 
+                Data = dashboardData!.Categories.Select(c => (double)c.TotalAmount).ToArray() 
+            }
+        };
+    }
+
+    private string[] GetChartLabels()
+    {
+        return dashboardData!.Categories.Select(c => c.CategoryName).ToArray();
+    }
+}

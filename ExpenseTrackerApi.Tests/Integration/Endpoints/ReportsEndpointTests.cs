@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using ExpenseTrackerApi.Models;
-using ExpenseTrackerApi.Data;
+using ExpenseTracker.Shared;
+using ExpenseTrackerApi.Domain.Interfaces;
 
 namespace ExpenseTrackerApi.Tests.Integration.Endpoints;
 

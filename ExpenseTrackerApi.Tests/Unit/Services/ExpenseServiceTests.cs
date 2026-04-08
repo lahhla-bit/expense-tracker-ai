@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using Moq;
 using FluentAssertions;
-using ExpenseTrackerApi.Services;
-using ExpenseTrackerApi.Data;
-using ExpenseTrackerApi.Models;
+using ExpenseTrackerApi.Domain.Entities;
+using ExpenseTrackerApi.Domain.Interfaces;
+using ExpenseTrackerApi.Application.Service;
+using ExpenseTrackerApi.Infrastructure.AI.GeminiResponse;
 
 namespace ExpenseTrackerApi.Tests.Unit.Services;
 

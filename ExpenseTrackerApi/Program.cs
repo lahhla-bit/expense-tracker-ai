@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using ExpenseTrackerApi.Data;
-using ExpenseTrackerApi.Services;
+using ExpenseTrackerApi.Infrastructure.Persistence;
+using ExpenseTrackerApi.Infrastructure.Persistence.Repositories;
+using ExpenseTrackerApi.Application.Service;
+using ExpenseTrackerApi.Infrastructure.AI;
 using FastEndpoints;
 using Scalar.AspNetCore;
 using Serilog;
 using Microsoft.AspNetCore.RateLimiting;
 using DotNetEnv;
+using ExpenseTrackerApi.Domain.Interfaces;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information() 
@@ -90,8 +93,21 @@ try
         };
     });
 
+    // Configuração de permissões (CORS)
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("PermitirBlazor",
+            policy =>
+            {
+                policy.WithOrigins("http://localhost:5085", "http://127.0.0.1:5085")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+    });
+
     var app = builder.Build();
 
+    app.UseCors("PermitirBlazor");
     app.UseRateLimiter();
     app.UseExceptionHandler();
     

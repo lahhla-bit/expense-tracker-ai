@@ -1,5 +1,5 @@
-using ExpenseTrackerApi.Services;
-using ExpenseTrackerApi.Models;
+using ExpenseTrackerApi.Domain.Interfaces;
+using ExpenseTrackerApi.Infrastructure.AI.GeminiResponse;
 
 namespace ExpenseTrackerApi.Tests.Mocks;
 

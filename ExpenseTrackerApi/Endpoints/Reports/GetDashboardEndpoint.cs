@@ -1,6 +1,6 @@
 using FastEndpoints;
-using ExpenseTrackerApi.Data;
-using ExpenseTrackerApi.Models;
+using ExpenseTrackerApi.Domain.Interfaces;
+using ExpenseTracker.Shared;
 
 namespace ExpenseTrackerApi.Endpoints.Reports;
 

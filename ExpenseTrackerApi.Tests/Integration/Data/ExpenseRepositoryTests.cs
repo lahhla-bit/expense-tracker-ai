@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ExpenseTrackerApi.Data;
-using ExpenseTrackerApi.Models;
+using ExpenseTrackerApi.Infrastructure.Persistence;
+using ExpenseTrackerApi.Infrastructure.Persistence.Repositories;
+using ExpenseTrackerApi.Domain.Entities;
 using FluentAssertions;
 
 namespace ExpenseTrackerApi.Tests.Integration.Data;
