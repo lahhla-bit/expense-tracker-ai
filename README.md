@@ -1,30 +1,39 @@
 # Expense Tracker AI API
 
-An intelligent financial management API built with **.NET 10**, designed to transform raw text into structured financial data using **Google Gemini AI**.
+An intelligent financial management ecosystem built with **.NET 10**, designed to transform raw text into structured financial data using **Google Gemini AI**. This project features a robust **Minimal API**, a modern **Blazor WebAssembly** dashboard, and a comprehensive **Automated Testing** suite.
 
 ## Key Features
 
-* **AI-Powered Categorization**: Processes natural language (e.g., "Spent $45 on pizza") using Gemini 1.5 Flash.
-* **Advanced Data Analysis**: Dashboard built with **PostgreSQL Window Functions** and **CTEs** for monthly spending insights, including category percentages and color-coded reporting.
-* **Resilience & Stability (Polly):** Implements standard resilience patterns with automatic retries and timeouts for AI service calls, ensuring high availability even during provider instability.
-* **Security & Rate Limiting:** Built-in protection against abuse using Fixed Window Rate Limiting (5 requests/minute per IP) to manage API costs and prevent bot attacks.
-* **Input Validation:** Strict request validation using FluentValidation to ensure data integrity and prevent prompt injection or excessive token usage (text limit: 150 chars).
-* **Professional Architecture**: Uses **Entity Framework Core Interceptors** for automated data auditing and **Global Exception Handling** for robust error management.
-* **Structured Logging**: Integrated with **Serilog** for real-time console tracking and daily error log files.
-* **Modern Documentation**: Interactive API testing and documentation powered by **Scalar** (Postman-style UI).
-* **Automatic Data Seeding**: Pre-configured financial categories with professional HEX color palettes.
+* **AI-Powered Categorization**: Processes natural language (e.g., "Spent $45 on pizza") using Gemini 1.5 Flash via the API.
+* **Modern Dashboard (Blazor)**: A professional dark-themed frontend built with **MudBlazor**, featuring interactive charts and real-time data visualization.
+* **Shared Architecture**: Uses a **Shared Class Library** to ensure 100% type safety and code reuse between Backend and Frontend.
+* **Automated Testing Suite**: 
+    * **Unit Tests**: Focused on business logic and service validation.
+    * **Integration Tests**: Validates endpoints and database repositories using `WebApplicationFactory` and `InMemoryDatabase`.
+* **CI/CD Pipeline**: Integrated with **GitHub Actions** to automatically build and run the entire test suite on every `push` or `pull_request`.
+* **Resilience & Stability**: Implements standard resilience patterns (Polly) with automatic retries for AI service calls.
+* **Security**: Built-in protection with Fixed Window Rate Limiting and strict Input Validation (FluentValidation).
+* **Modern Documentation**: Interactive API testing powered by **Scalar**.
 
 ## Tech Stack
 
-* **Runtime**: .NET 10 (Minimal APIs)
-* **Database**: PostgreSQL 15 (Dockerized)
-* **AI Engine**: Google Gemini AI (via HTTP Client & JSON Schema)
-* **Resilience**: Microsoft.Extensions.Http.Resilience (Polly-based)
-* **ORM**: Entity Framework Core (Migrations & Seeding) & Dapper (High-performance reporting)
+* **Backend**: .NET 10 (Minimal APIs), Entity Framework Core, Dapper.
+* **Frontend**: Blazor WebAssembly, MudBlazor (Material Design).
+* **Database**: PostgreSQL 15 (Dockerized) & EF Core InMemory (for testing).
+* **AI Engine**: Google Gemini AI.
 * **Validation**: FluentValidation
 * **Logging**: Serilog
-* **DevOps**: Docker & Docker Compose
-* **API UI**: Scalar
+* **Resilience**: Microsoft.Extensions.Http.Resilience (Polly-based)
+* **Testing**: xUnit, Moq, FluentAssertions, Microsoft.AspNetCore.Mvc.Testing.
+* **DevOps**: GitHub Actions (CI), Docker & Docker Compose.
+* **Architecture**: Mono-repo with Shared DTOs.
+
+## Project Structure
+
+* `ExpenseTrackerApi/`: The core REST API.
+* `ExpenseTracker.Client/`: The Blazor WebAssembly frontend.
+* `ExpenseTracker.Shared/`: Shared models and DTOs used by both projects.
+* `ExpenseTrackerApi.Tests/`: Unit and Integration tests.
 
 ## How to Run
 
@@ -40,35 +49,31 @@ docker compose up -d
 ```
 
 ### 3. Configuration
-Update ExpenseTrackerApi/appsettings.json with your Gemini API Key and Connection String:
+Create a .env file in ExpenseTrackerApi/ based on .env.example:
 ```json
-"Gemini": {
-"ApiKey": "YOUR_KEY_HERE"
-},
-"ConnectionStrings": {
-"PostgreSqlConnection": "Host=localhost;Port=5433;Database=expense_db;Username=YOUR_USER;Password=YOUR_PASS"
-}
+Gemini__ApiKey=YOUR_KEY
+ConnectionStrings__PostgreSqlConnection=Host=localhost;Port=5433;Database=expense_db;Username=postgres;Password=your_pass
 ```
 
-#### Environment Variables
-This project uses DotNetEnv to manage sensitive credentials and prevent them from being exposed in the source code.
-
-To run this application locally, you must create a .env file in the root directory. You can use the provided .env.example as a template.
-
-**Setup Instructions**:
-Create a file named .env in the project root.
-
-Add the following variables (replacing the placeholders with your actual data):
-
-Gemini__ApiKey=**YOUR_ACTUAL_API_KEY_HERE**
-ConnectionStrings__PostgreSqlConnection=**Host=localhost;Port=5433;Database=expense_db;Username=postgres;Password=your_password**
-
-
-### 4. Run Migrations & Start
+### 4. Running the Application
+To see the full ecosystem working, you need to run both the API and the Client:
+**Start the API:**
 ```bash
 cd ExpenseTrackerApi
-dotnet ef database update
 dotnet run
+```
+
+**Start the Dashboard (New Terminal):**
+```bash
+cd ExpenseTracker.Client
+dotnet watch
+```
+Access the dashboard at: http://localhost:5085
+
+### 5. Running Tests
+To execute the automated test suite and check code quality:
+```bash
+dotnet test
 ```
 
 ## API Endpoints
@@ -84,4 +89,4 @@ Input: { "text": "Almoço na Disney por $10.00" }
 **Reports**
 **GET /api/dashboard:** Returns monthly totals, category breakdown (with Hex colors), and spending percentages.
 
-Developed for portfolio purposes using Clean Code principles.
+Developed for portfolio purposes focusing on Full-Stack .NET 10 Architecture, AI Integration, and DevOps best practices.
